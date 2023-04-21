@@ -35,11 +35,8 @@ jobs:
       - name: Install Node
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
-      
-      - name: Install
-        run: yarn
 
-      - name: Build
+      - name: Build storybook
         run: yarn build-storybook
 
       - name: Setup Pages
