@@ -23,11 +23,24 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "16"
+
+      - name: Cache Node
+        uses: actions/cache@v3
+        id: cache-packages
+        with:
+          path: node_modules
+          key: cache-node-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: cache-node-modules-
+
+      - name: Install Node
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: yarn --frozen-lockfile
       
-      - name: Install and Build
-        run: |
-          yarn
-          yarn build-storybook
+      - name: Install
+        run: yarn
+
+      - name: Build
+        run: yarn build-storybook
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
